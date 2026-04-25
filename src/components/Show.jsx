@@ -1,28 +1,26 @@
-import React from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react'
 import { useState} from 'react'
+import axios from '../utils/api'
 function Show() {
 
     const [apiData, updateData] = useState([])
-
-    const api = 'https://jsonplaceholder.typicode.com/todos/1'
     const runAxios = async () => {
-        await axios(api).then((something) => {
+        await axios('/6').then((something) => {
             console.log(something)
             updateData([...apiData, something.data])
             console.log(something.data)
         }).catch((err) => console.log(err))
     }
     
+    useEffect(()=>{
+        runAxios()
+
+        return ()=>{}
+    },[])
 
     return (
         <div className="flex flex-col items-center p-8 gap-6 min-h-screen bg-white">
-  <button
-    onClick={runAxios}
-    className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-all active:scale-95"
-  >
-    Call API
-  </button>
+
 
   <div className="w-full max-w-lg space-y-2">
     {apiData.map((dt, index) => (
